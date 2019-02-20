@@ -34,7 +34,14 @@ class MarketTest < Minitest::Test
   end
 
   def test_market_can_have_vendors_added
-    assert_equal [@vendor_1,@vendor_2,@vendor_3], @market.vendors
+    market = Market.new("7-11")
+    vendor_1 = Vendor.new("Cool1")
+    vendor_2 = Vendor.new("Cool2")
+    vendor_3 = Vendor.new("Cool3")
+    market.add_vendor(vendor_1)
+    market.add_vendor(vendor_2)
+    market.add_vendor(vendor_3)
+    assert_equal [vendor_1,vendor_2,vendor_3], market.vendors
   end
 
   def test_market_can_list_of_vendor_names
@@ -58,6 +65,18 @@ class MarketTest < Minitest::Test
                 "Banana Nice Cream"=>50,
                 "Peach-Raspberry Nice Cream"=>25}
     assert_equal expected, @market.total_inventory
+  end
 
+  def test_market_can_sell_items
+    assert_equal false, @market.sell("Onions",1)
+    assert_equal true, @market.sell("Banana Nice Cream",5)
+  end
+
+  def test_selling_items_removes_them_from_vendor_inventory
+    @market.sell("Banana Nice Cream",5)
+    assert_equal 45, @vendor_2.check_stock("Banana Nice Cream")
+    @market.sell("Peaches",40)
+    assert_equal 0, @vendor_1.check_stock("Peaches")
+    assert_equal 60, @vendor_3.check_stock("Peaches")
   end
 end
