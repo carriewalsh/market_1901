@@ -34,7 +34,14 @@ class MarketTest < Minitest::Test
   end
 
   def test_market_can_have_vendors_added
-    assert_equal [@vendor_1,@vendor_2,@vendor_3], @market.vendors
+    market = Market.new("7-11")
+    vendor_1 = Vendor.new("Cool1")
+    vendor_2 = Vendor.new("Cool2")
+    vendor_3 = Vendor.new("Cool3")
+    market.add_vendor(vendor_1)
+    market.add_vendor(vendor_2)
+    market.add_vendor(vendor_3)
+    assert_equal [vendor_1,vendor_2,vendor_3], market.vendors
   end
 
   def test_market_can_list_of_vendor_names
