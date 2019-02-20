@@ -33,4 +33,23 @@ class Market
     end
     hash
   end
+
+  def sell(item,quantity)
+    if vendors_that_sell(item).count > 0
+      while quantity > 0
+        vendors_that_sell(item).each do |vendor|
+          if vendor.inventory[item] >= quantity
+            vendor.inventory[item] -= quantity
+            quantity = 0
+            return true
+          else
+            quantity -= vendor.inventory[item]
+            vendor.inventory[item] = 0
+          end
+        end
+      end
+    else
+      return false
+    end
+  end
 end
