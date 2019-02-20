@@ -18,4 +18,19 @@ class Market
       vendor.inventory.has_key?(item)
     end
   end
+
+  def sorted_item_list
+    list = @vendors.map {|vendor| vendor.inventory.keys}
+    list.flatten!.uniq!.sort!
+  end
+
+  def total_inventory
+    hash = Hash.new {|hash,key| hash[key] = 0}
+    @vendors.each do |vendor|
+      vendor.inventory.each do |item|
+        hash[item.first] += item.last
+      end
+    end
+    hash
+  end
 end
