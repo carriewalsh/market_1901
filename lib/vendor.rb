@@ -4,7 +4,14 @@ class Vendor
 
   def initialize(name)
     @name = name
-    @inventory = # you decide what goes here...
+    @inventory = {}
   end
 
+  def stock(name,quantity)
+    @inventory[name] = quantity
+  end
+
+  def check_stock(item)
+    @inventory[item]
+  end
 end
